@@ -1,0 +1,19 @@
+kumuluzee:
+  server:
+    http:
+      port: 8084
+  openapi-mp:
+    enabled: true
+    scan:
+      packages: ec.greeting
+    servlet:
+      mapping: /openapi
+    servers: https://example-api.com
+    ui:
+      server-auto-config:
+        enabled: false #Default: false for production enviroment
+        original-uri-check: true
+      enabled: true
+      mapping: /openapi/ui
+    scanning:
+      debug: true

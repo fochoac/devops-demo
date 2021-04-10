@@ -1,0 +1,28 @@
+package ec.greeting.configuration;
+
+
+import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
+import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn;
+import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
+import org.eclipse.microprofile.openapi.annotations.info.Contact;
+import org.eclipse.microprofile.openapi.annotations.info.Info;
+import org.eclipse.microprofile.openapi.annotations.info.License;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
+import org.eclipse.microprofile.openapi.annotations.security.SecuritySchemes;
+import org.eclipse.microprofile.openapi.annotations.servers.Server;
+
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
+
+@OpenAPIDefinition(
+        info = @Info(title = "DevOpsApi", version = "v1.0.0", contact = @Contact(), license = @License(name = "APACHE")),
+        servers = @Server(url = "http://localhost:8084/v1")
+)
+@SecuritySchemes({
+        @SecurityScheme(securitySchemeName = "X-Parse-REST-API-Key", apiKeyName = "X-Parse-REST-API-Key", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER),
+        @SecurityScheme(securitySchemeName = "X-JWT-KWY", apiKeyName = "X-JWT-KWY", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER)
+})
+@ApplicationPath("v1")
+public class AppBaseConfiguration extends Application {
+
+}
