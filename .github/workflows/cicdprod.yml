@@ -11,8 +11,6 @@ on:
       - completed
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   BUILD:
