@@ -27,15 +27,16 @@ module "dev_cluster" {
 # }
 
 # Production Enviroment 
-# module "prod_cluster" {
-#     source     = "./main"
-#     env_name   = "prod"
-#     project_id = var.project_id
-#     instance_type = "e2-medium"
-#     subnet_ip  =  "30.10.0.0/16"
-#     secondary_ip_cidr_range_pods = "30.20.0.0/16"
-#     secondary_ip_cidr_range_services = "30.30.0.0/16"
-# }
+module "prod_cluster" {
+    source     = "./main"
+    env_name   = "prod"
+    project_id = var.project_id
+    instance_type = "e2-medium"
+    subnet_ip  =  "30.10.0.0/16"
+    secondary_ip_cidr_range_pods = "30.20.0.0/16"
+    secondary_ip_cidr_range_services = "30.30.0.0/16"
+    region = "us-east1"
+}
  
 variable "project_id" {
   description = "The project ID to host the cluster in"
