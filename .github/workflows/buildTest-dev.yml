@@ -5,9 +5,6 @@ name: CI / CD DEVOPS
 
 on:
   workflow_dispatch:
-    branches: [development]
-  push:
-    branches: [ development ]
 
 jobs:
   BUILD:
