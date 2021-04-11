@@ -66,7 +66,6 @@ public class SecurityService {
     }
 
     private String generateRandomSubject() {
-        Random r = new Random();
         List<String> alphabet = Arrays.asList(ParameterEnum.JWT_RANDOM_ALPHABET.getValue().split("(?!^)"));
         Collections.shuffle(alphabet);
         return alphabet.subList(1, 10).stream().reduce("", String::concat);
