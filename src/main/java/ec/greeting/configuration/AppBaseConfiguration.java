@@ -1,6 +1,10 @@
 package ec.greeting.configuration;
 
 
+import ec.greeting.api.filter.ApiKeyFilter;
+import ec.greeting.api.filter.TypeRequestFilter;
+import ec.greeting.api.ws.EchoWs;
+import ec.greeting.api.ws.GreetingWs;
 import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn;
 import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
@@ -13,6 +17,8 @@ import org.eclipse.microprofile.openapi.annotations.servers.Server;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
+import java.util.HashSet;
+import java.util.Set;
 
 @OpenAPIDefinition(
         info = @Info(title = "DevOpsApi", version = "v1.0.0", contact = @Contact(), license = @License(name = "APACHE")),
@@ -24,5 +30,32 @@ import javax.ws.rs.core.Application;
 })
 @ApplicationPath("v1")
 public class AppBaseConfiguration extends Application {
+    private final Set<Class<?>> classes = new HashSet<>();
 
+    public AppBaseConfiguration() {
+        initializeApplication();
+
+    }
+
+    private void initializeApplication() {
+        registerProviders();
+        registerClasses();
+    }
+
+    @Override
+    public Set<Class<?>> getClasses() {
+        return this.classes;
+    }
+
+    private void registerClasses() {
+        classes.add(EchoWs.class);
+        classes.add(GreetingWs.class);
+    }
+
+
+    private void registerProviders() {
+        classes.add(TypeRequestFilter.class);
+        classes.add(ApiKeyFilter.class);
+
+    }
 }

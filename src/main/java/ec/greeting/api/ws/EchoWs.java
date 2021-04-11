@@ -23,8 +23,10 @@ import java.util.logging.Logger;
 @RequestScoped
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
-@Path("echo")
+@Path("public/echo")
 public class EchoWs {
+
+
     @Inject
     private SecurityService securityService;
     @Inject
@@ -49,13 +51,12 @@ public class EchoWs {
         Response response;
         try {
             String token = securityService.generateJWTToken();
-
             JwtToken jwtToken = new JwtToken();
             jwtToken.setToken(token);
             response = Response.ok(gson.toJson(jwtToken)).build();
         } catch (Exception e) {
             log.log(Level.SEVERE, e.getMessage(), e);
-            response = Response.status(Response.Status.BAD_REQUEST).entity(e).build();
+            response = Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
         return response;
 

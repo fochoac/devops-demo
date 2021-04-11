@@ -7,13 +7,13 @@ kumuluzee:
     scan:
       packages: ec.greeting
     servlet:
-      mapping: /openapi
-    servers: https://example-api.com
+      mapping: /public/openapi
+    servers: http://localhost:8084
     ui:
       server-auto-config:
         enabled: false #Default: false for production enviroment
         original-uri-check: true
       enabled: true
-      mapping: /openapi/ui
+      mapping: /public/openapi/ui
     scanning:
       debug: true

@@ -3,6 +3,7 @@ package ec.greeting.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import ec.greeting.enumeration.ParameterEnum;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -14,12 +15,7 @@ import java.util.logging.Logger;
 
 @RequestScoped
 public class SecurityService {
-    public static final String ALPHABET_RANDOM = "123456789AbcdefghijklmnopqrstuvwxyzBCEFGHIJKLMNOPQUSTUVWXYZ";
-    private static final String AUTH_0 = "auth0";
-    private static final String USER = "user";
-    private static final int NUMBER_SECONDS_IS_VALID_REQUEST = 30;
-    private static final String SECRET_TEST_CODE_NOT_PRODUCTION = "testjcasw2021";
-    private static final Algorithm ALGORITHM_HMAC256 = Algorithm.HMAC256(SECRET_TEST_CODE_NOT_PRODUCTION);
+    private static final Algorithm ALGORITHM_HMAC256 = Algorithm.HMAC256(ParameterEnum.JWT_DEFAULT_SECRET.getValue());
 
     @Inject
     private Logger logger;
@@ -30,11 +26,15 @@ public class SecurityService {
         claims = new String[1];
         claims[0] = userCode;
         LocalDateTime localDateTime = LocalDateTime.now();
+        Date expirationTime = Date.from(localDateTime
+                .plusSeconds(Long.valueOf(ParameterEnum.JWT_TIME_TO_LIFE_SECONDS.getValue()))
+                .atZone(ZoneId.systemDefault()).toInstant());
+        Date issuerDate = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
         return JWT.create()
-                .withIssuer(AUTH_0)
-                .withClaim(USER, userCode)
-                .withExpiresAt(Date.from(localDateTime.plusSeconds(NUMBER_SECONDS_IS_VALID_REQUEST).atZone(ZoneId.systemDefault()).toInstant()))
-                .withIssuedAt(Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()))
+                .withIssuer(ParameterEnum.JWT_ISSUER_CODE.getValue())
+                .withClaim(ParameterEnum.JWT_DEFAULT_USER.getValue(), userCode)
+                .withExpiresAt(expirationTime)
+                .withIssuedAt(issuerDate)
                 .withSubject(generateRandomSubject())
                 .sign(ALGORITHM_HMAC256);
 
@@ -44,8 +44,10 @@ public class SecurityService {
     public boolean isValidJWTToken(String jwtString) {
         try {
 
-            Algorithm algorithm = Algorithm.HMAC256(SECRET_TEST_CODE_NOT_PRODUCTION);
-            JWTVerifier verifier = JWT.require(algorithm).withIssuer(AUTH_0).build();
+            JWTVerifier verifier = JWT
+                    .require(ALGORITHM_HMAC256)
+                    .withIssuer(ParameterEnum.JWT_ISSUER_CODE.getValue())
+                    .build();
             verifier.verify(jwtString);
 
             return true;
@@ -57,16 +59,9 @@ public class SecurityService {
 
     private String generateRandomSubject() {
         Random r = new Random();
-
-        List<String> alphabet = Arrays.asList(ALPHABET_RANDOM.split("(?!^)"));
-
+        List<String> alphabet = Arrays.asList(ParameterEnum.JWT_RANDOM_ALPHABET.getValue().split("(?!^)"));
         Collections.shuffle(alphabet);
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < 10; i++) {
-            builder.append(alphabet.get(r.nextInt(alphabet.size())));
-        }
-        return builder.toString();
-
+        return alphabet.subList(1, 10).stream().reduce("", String::concat);
     }
 
 
