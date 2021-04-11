@@ -57,6 +57,14 @@ public class SecurityService {
         }
     }
 
+    public boolean isValidRestApiKey(String restApiKey) {
+        return Optional.ofNullable(restApiKey)
+                .filter(t -> Objects.nonNull(t)
+                        && !t.trim().isEmpty()
+                        && t.equals(ParameterEnum.API_KEY_PARSE_REST_DEFAUTL_VALUE.getValue()))
+                .isPresent();
+    }
+
     private String generateRandomSubject() {
         Random r = new Random();
         List<String> alphabet = Arrays.asList(ParameterEnum.JWT_RANDOM_ALPHABET.getValue().split("(?!^)"));
