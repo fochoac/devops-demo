@@ -41,9 +41,11 @@ jobs:
 #      - name: Execute Static Code Analisys with SonarCloud
 #        run: mvn sonar:sonar -Dsonar.projectKey=fochoac_devops -Dsonar.organization=fochoac -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.language=java
 
-  DEPLOY_CONTAINER_REGISTRY:
+  DEPLOY_ON_K8S_GKE:
     needs: TEST
     runs-on: ubuntu-latest
+    env:
+      SHA: ${{github.sha}}
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
@@ -58,3 +60,11 @@ jobs:
         password: ${{ secrets.GCR_JSON_KEY }}
     - name: Push Docker Image to Goocle Cloud
       run: mvn clean install -Pgcr -Dregistry=gcr
+    - id: get-cluster-credentials
+        uses: google-github-actions/get-gke-credentials@main
+        with:
+          cluster_name: devops-cluster-dev
+          location: us-central1
+          credentials: ${{ secrets.GCR_JSON_KEY }}
+    - id: delete-pods
+      run: kubectl delete pods --all
