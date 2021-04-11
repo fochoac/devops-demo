@@ -4,11 +4,8 @@
 name: CI / CD DEVOPS
 
 on:
-  workflow_run:
-    workflows: ["Run Tests"]
+  workflow_dispatch:
     branches: [development]
-    types:
-      - completed
   push:
     branches: [ development ]
 
@@ -57,12 +54,12 @@ jobs:
         username: _json_key
         password: ${{ secrets.GCR_JSON_KEY }}
     - name: Push Docker Image to Goocle Cloud
-      run: mvn clean install -Pgcr -Dregistry=gcr
+      run: mvn clean install -Pgcr -Dregistry=gcr -Denv=dev
     - id: get-cluster-credentials
       uses: google-github-actions/get-gke-credentials@main
       with:
-        cluster_name: devops-cluster-prod
-        location: us-east1
+        cluster_name: devops-cluster-dev
+        location: us-central1
         credentials: ${{ secrets.GCR_JSON_KEY }}
     - id: delete-pods
       run: kubectl delete pods --all
