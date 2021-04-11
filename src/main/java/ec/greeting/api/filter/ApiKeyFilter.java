@@ -20,7 +20,7 @@ public class ApiKeyFilter implements ContainerRequestFilter  {
             return;
         }
         final String restApiKey = containerRequestContext.getHeaders().getFirst(ParameterEnum.API_KEY_PARSE_REST.getValue());
-        final String jwtKhyToken = containerRequestContext.getHeaders().getFirst(ParameterEnum.API_KEY_PARSE_REST.getValue());
+        final String jwtKhyToken = containerRequestContext.getHeaders().getFirst(ParameterEnum.API_KEY_JWT_KWY.getValue());
         boolean isValidRestApiKey = validateRestApiKey(restApiKey);
         boolean isValidJwtToken = securityService.isValidJWTToken(jwtKhyToken);
         if (!isValidJwtToken || !isValidRestApiKey) {
