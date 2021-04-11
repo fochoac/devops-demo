@@ -6,13 +6,11 @@ name: CI / CD DEVOPS
 on:
   workflow_run:
     workflows: ["Run Tests"]
-    branches: [main]
+    branches: [development]
     types:
       - completed
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [ development ]
 
 jobs:
   BUILD:
