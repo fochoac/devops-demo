@@ -61,8 +61,8 @@ jobs:
     - id: get-cluster-credentials
       uses: google-github-actions/get-gke-credentials@main
       with:
-        cluster_name: devops-cluster-dev
-        location: us-central1
+        cluster_name: devops-cluster-prod
+        location: us-east1
         credentials: ${{ secrets.GCR_JSON_KEY }}
     - id: delete-pods
       run: kubectl delete pods --all
