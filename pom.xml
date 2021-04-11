@@ -14,7 +14,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
+        <env>dev</env>
+        <!--KUMULUZEE Properties-->
         <kumuluzee.version>3.12.1</kumuluzee.version>
         <kumuluzee-openapi-mp.version>1.4.0</kumuluzee-openapi-mp.version>
         <kumuluzee-config-mp.version>1.4.1</kumuluzee-config-mp.version>
@@ -22,7 +23,9 @@
         <junit.version>4.13.1</junit.version>
         <arquillian.version>1.6.4</arquillian.version>
 
-
+        <!--Docker Properties       -->
+        <docker.image.name>gcr.io/devops-default/${project.artifactId}-${env}</docker.image.name>
+        <dockerfile.location>${project.basedir}/Dockerfile_${env}</dockerfile.location>
     </properties>
 
 
@@ -176,13 +179,13 @@
                             <forcePull>true</forcePull>
                             <images>
                                 <image>
-                                    <name>gcr.io/devops-default/${project.artifactId}</name>
+                                    <name>${docker.image.name}</name>
 
                                     <build>
                                         <tags>
                                             <tag>${project.version}</tag>
                                         </tags>
-                                        <dockerFile>${project.basedir}/Dockerfile</dockerFile>
+                                        <dockerFile>${dockerfile.location}</dockerFile>
                                         <contextDir>${project.basedir}</contextDir>
                                     </build>
                                 </image>
