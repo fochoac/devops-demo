@@ -4,7 +4,7 @@ RUN mkdir /app
 
 WORKDIR /app
 
-ADD ./target/greeting-ws-1.0.0-SNAPSHOT.jar /app
+ADD ./target/devops-demo-ws-1.0.0-SNAPSHOT.jar /app
 
 EXPOSE 8084
 

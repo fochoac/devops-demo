@@ -25,7 +25,7 @@
 
         <!--Docker Properties       -->
         <docker.image.name>gcr.io/devops-default/${project.artifactId}-${env}</docker.image.name>
-        <dockerfile.location>${project.basedir}/Dockerfile_${env}</dockerfile.location>
+        <dockerfile.location>${project.basedir}/Dockerfile</dockerfile.location>
     </properties>
 
 
