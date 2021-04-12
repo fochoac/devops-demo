@@ -33,15 +33,25 @@ Additionally, the API rest was configured with OpenAPI spec 2.0 and you can test
 
 - http://localhost:8084/public/openapi/ui 
 
-<img src="./images/swagger-ui.jpg" alt="Operation of Google Cloud" style="zoom:50%;" />
+<img src="./images/swagger-ui.jpg" alt="Operation of Google Cloud" style="width:40%;" />
 
-- For download the OpenAPI Spec of the Rest API microservice: http://localhost:8084/public/openapi 
+# Static Analysis Test
+
+To perform this test, SonarQube Cloud was used and the results can be accessed by: https://sonarcloud.io/dashboard?id=devops-demo-ws
+
+**Note:** SonarCloud only executes analysis with java 11 or mayor and PowerMock work well with Java 9 or minor, for that reason, the coverage of code, not was published because of existing problems with the java 11 ([GitHub Issue](https://github.com/powermock/powermock/issues/1061)), however, you can execute the coverage test with the command locally:
+
+```bash
+mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install
+```
+
+
 
 ## Integration Testing
 
 For make integration testing, you can use the next endpoint:
 
-|  Enviroment                     | URL|
+|  Environment          | URL|
 | ------- | --------------------------------- |
 | Production | [LINK](http://85.19.231.35.bc.googleusercontent.com/public/openapi/ui/?url=http://85.19.231.35.bc.googleusercontent.com/public/openapi&oauth2RedirectUrl=http://85.19.231.35.bc.googleusercontent.com/public/openapi/oauth2-redirect.html) |
 | Development | [LINK](http://141.93.222.35.bc.googleusercontent.com/public/openapi/ui/?url=http://141.93.222.35.bc.googleusercontent.com/public/openapi&oauth2RedirectUrl=http://141.93.222.35.bc.googleusercontent.com/public/openapi/oauth2-redirect.html) |
@@ -143,6 +153,8 @@ The global project use **Semantic Versioning and Structure Specification** publi
 
 The project uses the  [GitHub Flow](https://guides.github.com/introduction/flow/)  for the operation flow in GitHub Actions.
 
+
+
 # Project workflow
 
 ### Considerations
@@ -159,7 +171,9 @@ terraform init #Initialize and download terraform deependencies
 terraform plan # generate a review of the plan to execute in google cloud
 terraform apply -auto-approve # Apply the plan in Google Cloud
 ```
-For execute the generation of pods into generate cluster:
+
+
+For execute the generation of pods into cluster:
 
 ```bash
 cd IaC/gke/deployment/pods
@@ -167,9 +181,13 @@ terraform init #Initialize and download terraform deependencies
 terraform plan # generate a review of the plan to execute in google cloud
 terraform apply -auto-approve # Apply the plan in Google Cloud
 ```
-For execute the generation of API Gateway, you must provide a OpenApi specification, for this actions, you can donwnload the spec: 
 
 
+For execute the generation of API Gateway, you must provide a OpenApi specification, for this actions, you can download the spec: using the : **Integration Testing** section.
+
+There are two examples for environment of OpenAPI spec for the API Gateway in the folder **api-gateway**.
+
+The commands for implement the API Gateway are:
 
 ```bash
 cd IaC/gke/deployment/api-gateway
@@ -180,7 +198,27 @@ terraform apply -auto-approve # Apply the plan in Google Cloud
 
 
 
+The endpoints published for the API Gateway are:
+
+|  Environment          | URL |
+| ------- | --------------------------------- |
+| Development | https://gw-dev-5b0q9by8.uc.gateway.dev |
+| Production | https://gw-prod-5b0q9by8.ue.gateway.dev |
+
+##### Publish Methods 
+
+|  Method                     | Request Type |Description|
+| ------- | --------------------------------- |--|
+| ${URL_API_GW_ENV}/generateJwtToken | GET |Get JWT token for DevOps API Token|
+| ${URL_API_GW_ENV}/DevOps | POST | Execute the request with the parameters example provided |
+
 Once executed, the pipeline must be execute for run the next flow in Google Cloud: 
 
-![Operation of Google Cloud](./images/operation-gke.jpg)
+<img src="./images/operation-gke.jpg" alt="Operation of Google Cloud" style="width:50%;" />
+
+##### Flow
+
+1. The developer execute the CI/CD in the project, later, GitHub Action deploy a docker image into Google Container Registry as: **devops-demo-ws-${env}** and tag the docker image with the version of the project.
+2. Execute a delete of pods the defined environment cluster into the GitHub Action for regenerate the pod with the last version published in Google Container Registry.
+3. The changes are published and can be tested
 
