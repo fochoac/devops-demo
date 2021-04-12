@@ -14,7 +14,7 @@ Example de DevOps With Google Cloud
 |Docker| any version| [LINK](https://docs.docker.com/engine/install/) |
 
 
-#####  **Infrastructure as code (IaC)**
+#####  **Infrastructure as Code (IaC)**
 
 |  Requirements                     | Version |Installation|
 | ------- | --------------------------------- |-----------------|
@@ -29,7 +29,7 @@ For run the microservice, execute:
 mvn clean install
 java -jar target/*.jar
 ```
-Additionally, the API rest was configured with OpenAPI spec 2.0 and you can test the Rest API  in the next url:
+Additionally, the API rest was configured with OpenAPI spec 2.0, and you can test the Rest API  in the next URL:
 
 - http://localhost:8084/public/openapi/ui 
 
@@ -113,13 +113,13 @@ IaC/
 
 ```
 
-Where each folder manage the next considerations:
+Where each folder manages the next considerations:
 
 |  Folder                     | Description|
 | ------- | --------------------------------- |
 | GKE | Handle the IaC for Google Kubernetes Engine |
-| Cluster | Handle the code for generate many clusters with specific environment: Development (dev), Staging (staging), Production etc. |
-| Deployment | Handle the code for generate pods and an API Gateway for each cluster environment. |
+| Cluster | Handle the code for generating many clusters with a specific environment: Development (dev), Staging (staging), Production, etc. |
+| Deployment | Handle the code for generating pods and an API Gateway for each cluster environment. |
 
 
 
@@ -127,21 +127,20 @@ Where each folder manage the next considerations:
 
 ## Continuous Integration
 
-The global solution manage the next stages:
+The global solution manages the next stages:
 
 |  Stage                     | Description|
 | ------- | --------------------------------- |
 | Build | Manage the task for build de project |
-| Test | Manage the task for execute coverage test and static analysis of code with SonarQube |
-| Deploy | Manage the task for push the docker image to Google Container Register and update of pods with new docker image. |
+| Test | Manage the task for executing coverage test and static analysis of code with SonarQube |
 
 ## Continuous Deployment and Delivery
 
-The global solution manage the next stage:
+The global solution manages the next stage:
 
 |  Stage                     | Description|
 | ------- | --------------------------------- |
-| Deploy | Manage the task for push the docker image to Google Container Register and update of pods with new docker image. Depending the branch, the stage can execute automatically (**Continuous Deployment**) or manually (**Continuous Delivery**) |
+| Deploy | Manage the task for push the docker image to Google Container Register and update of pods with a new docker image. Depending on the branch, the stage can execute automatically (**Continuous Deployment**) or manually (**Continuous Delivery**) |
 
 # Versioning
 
@@ -159,11 +158,11 @@ The project uses the  [GitHub Flow](https://guides.github.com/introduction/flow/
 
 ### Considerations
 
-When the developer push to development branch on GitHub, the project must be configure the flow for CI/CD with GitHub Actions.
+When the developer push to the development branch on GitHub, the project must configure the flow for CI/CD with GitHub Actions.
 
-- Before of execute de deploy stage, IaC must be executed in the cloud.
+- Before executing de deploy stage, IaC must be executed in the cloud.
 
-For execute the cluster generation, execute the next commands:
+For executing the cluster generation, execute the next commands:
 
 ```bash
 cd IaC/gke/cluster
@@ -173,7 +172,7 @@ terraform apply -auto-approve # Apply the plan in Google Cloud
 ```
 
 
-For execute the generation of pods into cluster:
+For executing the generation of pods into the cluster:
 
 ```bash
 cd IaC/gke/deployment/pods
@@ -183,11 +182,11 @@ terraform apply -auto-approve # Apply the plan in Google Cloud
 ```
 
 
-For execute the generation of API Gateway, you must provide a OpenApi specification, for this actions, you can download the spec: using the : **Integration Testing** section.
+For executing the generation of API Gateway, you must provide an OpenApi specification, for these actions, you can download the spec: using the: **Integration Testing** section.
 
-There are two examples for environment of OpenAPI spec for the API Gateway in the folder **api-gateway**.
+There are two examples for the environment of OpenAPI spec for the API Gateway in the folder **api-gateway**.
 
-The commands for implement the API Gateway are:
+The commands for implementing the API Gateway are:
 
 ```bash
 cd IaC/gke/deployment/api-gateway
@@ -212,13 +211,16 @@ The endpoints published for the API Gateway are:
 | ${URL_API_GW_ENV}/generateJwtToken | GET |Get JWT token for DevOps API Token|
 | ${URL_API_GW_ENV}/DevOps | POST | Execute the request with the parameters example provided |
 
-Once executed, the pipeline must be execute for run the next flow in Google Cloud: 
+Once executed, the pipeline must be executed for run the next flow in Google Cloud: 
 
 <img src="./images/operation-gke.jpg" alt="Operation of Google Cloud" style="width:50%;" />
 
 ##### Flow
 
-1. The developer execute the CI/CD in the project, later, GitHub Action deploy a docker image into Google Container Registry as: **devops-demo-ws-${env}** and tag the docker image with the version of the project.
-2. Execute a delete of pods the defined environment cluster into the GitHub Action for regenerate the pod with the last version published in Google Container Registry.
+1. The developer executes the CI/CD in the project, later, GitHub Action deploys a docker image into Google Container Registry as **devops-demo-ws-${env}** and tag the docker image with the version of the project.
+2. Execute the delete of pods the defined environment cluster into the GitHub Action for regenerate the pod with the last version published in Google Container Registry.
 3. The changes are published and can be tested
 
+Thanks for your attention
+
+Fernando.
