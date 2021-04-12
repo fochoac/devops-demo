@@ -35,7 +35,7 @@ Additionally, the API rest was configured with OpenAPI spec 2.0 and you can test
 
 <img src="./images/swagger-ui.jpg" alt="Operation of Google Cloud" style="width:40%;" />
 
-# Static Analysis Test
+## Static Analysis Test
 
 To perform this test, SonarQube Cloud was used and the results can be accessed by: https://sonarcloud.io/dashboard?id=devops-demo-ws
 
