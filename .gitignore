@@ -3,5 +3,5 @@
 /.classpath
 /.project
 /.idea
-/k8s/kubernetes-cluster/deployment/pods/.terraform/
-/k8s/kubernetes-cluster/generate-cluster/.terraform/
+/IaC/gke/deployment/pods/.terraform/
+/IaC/gke/generate-cluster/.terraform/
