@@ -1,6 +1,7 @@
 package ec.greeting.service;
 
 import ec.greeting.common.CommonTest;
+import ec.greeting.enumeration.ParameterEnum;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +33,16 @@ public class SecurityServiceTest implements CommonTest {
     @Test
     public void validateJWTTokenOk() {
         String jwtToken = service.generateJWTToken();
-        System.out.println(jwtToken);
         Assert.assertTrue(service.isValidJWTToken(jwtToken));
+    }
+
+    @Test
+    public void validateRestApiKeyOk() {
+        Assert.assertTrue(service.isValidRestApiKey(ParameterEnum.API_KEY_PARSE_REST_DEFAUTL_VALUE.getValue()));
+    }
+
+    @Test
+    public void validateRestApiKeyInvalid() {
+        Assert.assertFalse(service.isValidRestApiKey("test"));
     }
 }

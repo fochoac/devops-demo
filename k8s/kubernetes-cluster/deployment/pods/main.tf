@@ -1,46 +1,50 @@
 provider "google" {
  
 }
+
 provider "kubernetes" {
-  config_path = "./../../generate-cluster/kubeconfig-dev"
+  config_path = format("./../../generate-cluster/kubeconfig-%s",var.env_name)
 }
 
 resource "kubernetes_namespace" "k8s_namespace" {
   metadata {
-    name = "development"
+    name = var.env_name
   }
 }
-
+ locals {
+name=format("%s-%s",var.image_name,var.env_name)
+load_balancer_service_name=format("%s-service",local.name)
+}
 resource "kubernetes_deployment" "k8s_deployment" {
   metadata {
-    name = "greeting-ws"
+    name = local.name
     labels = {
-      app = "greeting-ws"
+      app = local.name
     }
   }
 
   spec {
-    replicas = 2
+    replicas = var.replicas_number
 
     selector {
       match_labels = {
-        app = "greeting-ws"
+        app = local.name
       }
     }
 
     template {
       metadata {
         labels = {
-          app = "greeting-ws"
+          app = local.name
         }
       }
 
       spec {
         container {
-          image = "gcr.io/devops-default/greeting-ws"
-          name  = "greeting-ws"
+          image = format("gcr.io/%s/%s",var.project_id,local.name)
+          name  = local.name
           port {
-            container_port = 8084
+            container_port = var.container_port
           }
 
           resources {
@@ -61,7 +65,7 @@ resource "kubernetes_deployment" "k8s_deployment" {
 
 resource "kubernetes_service" "k8s_service" {
   metadata {
-    name = "greeting-ws-service"
+    name = local.load_balancer_service_name
   }
   spec {
     selector = {
@@ -70,9 +74,11 @@ resource "kubernetes_service" "k8s_service" {
     session_affinity = "ClientIP"
     port {
       port        = 80
-      target_port = 8084
+      target_port = var.container_port
     }
 
     type = "LoadBalancer"
   }
 }
+
+

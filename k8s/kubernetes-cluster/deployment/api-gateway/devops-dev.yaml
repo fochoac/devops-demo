@@ -1,0 +1,56 @@
+swagger: "2.0"
+info:
+  title: "DevOpsApi"
+  description: "Sample API on API Gateway with a Google Cloud Functions backend"
+  version: 1.0.0
+schemes:
+  - http
+produces:
+  - application/json
+
+paths:
+    /generateJwtToken:
+      get:
+          summary: "Generate a Jwt token with expiration time of 30 seconsds"
+          operationId: generateJwtToken
+          produces:
+          - "application/json"
+          x-google-backend:
+            address: http://141.93.222.35.bc.googleusercontent.com/v1/public/echo/generateJwtToken
+          responses:
+            "200":
+              description: "A successful response"
+              schema:
+                $ref: "#/definitions/JwtToken"
+                
+    /DevOps:
+     post:
+      summary: "Reply greeting by request"
+      operationId: DevOps
+      produces:
+      - "application/json"
+      x-google-backend:
+        address: http://141.93.222.35.bc.googleusercontent.com/v1/greeting/DevOps
+      responses:
+        "200":
+          description: "A successful response"
+          schema:
+            $ref: "#/definitions/Greeting"
+definitions:
+    Greeting:
+      type: object
+      properties:
+        from:
+          type: string
+        message:
+          type: string
+        timeToLifeSec:
+          format: int64
+          type: integer
+        to:
+          type: string
+    JwtToken:
+      type: object
+      properties:
+        token:
+          type: string
