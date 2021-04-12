@@ -117,7 +117,4 @@ The project uses the  [GitHub Flow](https://guides.github.com/introduction/flow/
 
 # Project workflow
 
-![Operation of Google Cloud](images\operation-gke.jpg)
-
-
-
+![Operation of Google Cloud](./images/operation-gke.jpg)
