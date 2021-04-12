@@ -12,7 +12,7 @@ kumuluzee:
       server-auto-config:
         enabled: false #Default: false for production enviroment
         original-uri-check: true
-      enabled: true
+      enabled: true #Default: false for production enviroment
       mapping: /public/openapi/ui
     scanning:
       debug: true
