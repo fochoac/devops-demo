@@ -43,8 +43,8 @@ For make integration testing, you can use the next endpoint:
 
 |  Enviroment                     | URL|
 | ------- | --------------------------------- |
-| Production | http://85.19.231.35.bc.googleusercontent.com/public/openapi/ui |
-| Development | http://141.93.222.35.bc.googleusercontent.com/public/openapi/ui |
+| Production | [LINK](http://85.19.231.35.bc.googleusercontent.com/public/openapi/ui/?url=http://85.19.231.35.bc.googleusercontent.com/public/openapi&oauth2RedirectUrl=http://85.19.231.35.bc.googleusercontent.com/public/openapi/oauth2-redirect.html) |
+| Development | [LINK](http://141.93.222.35.bc.googleusercontent.com/public/openapi/ui/?url=http://141.93.222.35.bc.googleusercontent.com/public/openapi&oauth2RedirectUrl=http://141.93.222.35.bc.googleusercontent.com/public/openapi/oauth2-redirect.html) |
 
 
 
