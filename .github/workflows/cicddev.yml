@@ -32,8 +32,6 @@ jobs:
           java-version: 1.8
       - name: Execute Cobertura
         run: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true &&  mvn sonar:sonar -Dsonar.projectKey=devops-demo-ws -Dsonar.organization=fochoac -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.language=java
-#      - name: Execute Static Code Analisys with SonarCloud
-#        run: mvn sonar:sonar -Dsonar.projectKey=devops-demo-ws -Dsonar.organization=fochoac -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.language=java
 
   DEPLOY_ON_K8S_GKE:
     needs: TEST
