@@ -29,13 +29,23 @@ For run the microservice, execute:
 mvn clean install
 java -jar target/*.jar
 ```
-Additionally, the API rest was configured with OpenApi spec 2.0 and you can test the Rest API  in the next url:
+Additionally, the API rest was configured with OpenAPI spec 2.0 and you can test the Rest API  in the next url:
 
-http://localhost:8084/public/openapi/ui #web interface for test
+- http://localhost:8084/public/openapi/ui 
 
-![Operation of Google Cloud](./images/swagger-ui.jpg)
+<img src="./images/swagger-ui.jpg" alt="Operation of Google Cloud" style="zoom:50%;" />
 
-http://localhost:8084/public/openapi # Download opeapi file with OpenApi Spec of Rest API
+- For download the OpenAPI Spec of the Rest API microservice: http://localhost:8084/public/openapi 
+
+## Integration Testing
+
+For make integration testing, you can use the next endpoint:
+
+|  Enviroment                     | URL|
+| ------- | --------------------------------- |
+| Production | http://85.19.231.35.bc.googleusercontent.com/public/openapi/ui |
+| Development | http://141.93.222.35.bc.googleusercontent.com/public/openapi/ui |
+
 
 
 ## Architecture
@@ -135,7 +145,7 @@ The project uses the  [GitHub Flow](https://guides.github.com/introduction/flow/
 
 # Project workflow
 
-### Condierations
+### Considerations
 
 When the developer push to development branch on GitHub, the project must be configure the flow for CI/CD with GitHub Actions.
 
@@ -157,7 +167,9 @@ terraform init #Initialize and download terraform deependencies
 terraform plan # generate a review of the plan to execute in google cloud
 terraform apply -auto-approve # Apply the plan in Google Cloud
 ```
-For execute the generation of API Gateway:
+For execute the generation of API Gateway, you must provide a OpenApi specification, for this actions, you can donwnload the spec: 
+
+
 
 ```bash
 cd IaC/gke/deployment/api-gateway
@@ -165,6 +177,7 @@ terraform init #Initialize and download terraform deependencies
 terraform plan # generate a review of the plan to execute in google cloud
 terraform apply -auto-approve # Apply the plan in Google Cloud
 ```
+
 
 
 Once executed, the pipeline must be execute for run the next flow in Google Cloud: 
