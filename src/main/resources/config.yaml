@@ -8,7 +8,6 @@ kumuluzee:
       packages: ec.greeting
     servlet:
       mapping: /public/openapi
-    servers: http://localhost:8084
     ui:
       server-auto-config:
         enabled: false #Default: false for production enviroment

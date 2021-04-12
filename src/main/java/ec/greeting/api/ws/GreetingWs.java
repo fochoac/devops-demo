@@ -8,6 +8,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -36,6 +38,7 @@ public class GreetingWs {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("DevOps")
+    @SecurityRequirements({@SecurityRequirement(name = "X-Parse-REST-API-Key"), @SecurityRequirement(name = "X-JWT-KWY")})
     @Operation(summary = "Reply greeting by request", description = "Reply greeting by request.")
     @APIResponses({
             @APIResponse(

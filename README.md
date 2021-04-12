@@ -22,6 +22,22 @@ Example de DevOps With Google Cloud
 |SDK Google Cloud (gcloud)| 334.0.0| [LINK](https://cloud.google.com/sdk?hl=en)|
 |Command Line Interface of kubernetes(kubectl) |v1.1 or mayor| [LINK](https://kubernetes.io/es/docs/tasks/tools/install-kubectl/)|
 
+## Run the Rest API
+For run the microservice, execute:
+
+```bash
+mvn clean install
+java -jar target/*.jar
+```
+Additionally, the API rest was configured with OpenApi spec 2.0 and you can test the Rest API  in the next url:
+
+http://localhost:8084/public/openapi/ui #web interface for test
+
+![Operation of Google Cloud](./images/swagger-ui.jpg)
+
+http://localhost:8084/public/openapi # Download opeapi file with OpenApi Spec of Rest API
+
+
 ## Architecture
 
 The project manages two models:
@@ -38,6 +54,8 @@ The architecture consideration was "Onion Architecture", where manage the next l
 | Producer | Additional layer for manage javax.enterprise.inject.Produces |
 | Api | Handle the endpoint and additional classes for filter tokens or request methods |
 | Util | Handle utility classes for the project |
+
+
 
 #####  **Infrastructure as code (IaC)**
 
@@ -117,4 +135,39 @@ The project uses the  [GitHub Flow](https://guides.github.com/introduction/flow/
 
 # Project workflow
 
+### Condierations
+
+When the developer push to development branch on GitHub, the project must be configure the flow for CI/CD with GitHub Actions.
+
+- Before of execute de deploy stage, IaC must be executed in the cloud.
+
+For execute the cluster generation, execute the next commands:
+
+```bash
+cd IaC/gke/cluster
+terraform init #Initialize and download terraform deependencies
+terraform plan # generate a review of the plan to execute in google cloud
+terraform apply -auto-approve # Apply the plan in Google Cloud
+```
+For execute the generation of pods into generate cluster:
+
+```bash
+cd IaC/gke/deployment/pods
+terraform init #Initialize and download terraform deependencies
+terraform plan # generate a review of the plan to execute in google cloud
+terraform apply -auto-approve # Apply the plan in Google Cloud
+```
+For execute the generation of API Gateway:
+
+```bash
+cd IaC/gke/deployment/api-gateway
+terraform init #Initialize and download terraform deependencies
+terraform plan # generate a review of the plan to execute in google cloud
+terraform apply -auto-approve # Apply the plan in Google Cloud
+```
+
+
+Once executed, the pipeline must be execute for run the next flow in Google Cloud: 
+
 ![Operation of Google Cloud](./images/operation-gke.jpg)
+
