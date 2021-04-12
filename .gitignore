@@ -3,5 +3,4 @@
 /.classpath
 /.project
 /.idea
-/IaC/gke/deployment/pods/.terraform/
-/IaC/gke/generate-cluster/.terraform/
+
