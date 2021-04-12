@@ -9,6 +9,6 @@ public class JwtToken {
     private String token;
 
     public JwtToken() {
-
+        super();
     }
 }
